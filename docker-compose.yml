@@ -1,0 +1,83 @@
+version: "3.9"
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./backend:/app
+    ports:
+      - "5433:5432"
+
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
+
+  agents-classifier:
+    build:
+      context: ./agents
+      dockerfile: Dockerfile.agent
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - JWT_SECRET=${JWT_SECRET}
+      - CLASSIFIER_PORT=9001
+    command: ["node","/app/classifier/index.js"]
+
+  agents-responder:
+    build:
+      context: ./agents
+      dockerfile: Dockerfile.agent
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - JWT_SECRET=${JWT_SECRET}
+      - RESPONDER_PORT=9002
+    command: ["node","/app/responder/index.js"]
+
+  agents-verifier:
+    build:
+      context: ./agents
+      dockerfile: Dockerfile.agent
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - JWT_SECRET=${JWT_SECRET}
+      - VERIFIER_PORT=9003
+    command: ["node","/app/verifier/index.js"]
+
+  orchestrator:
+    build:
+      context: ./orchestration
+      dockerfile: Dockerfile.orch
+    env_file: .env
+    environment:
+      - CLASSIFIER_URL=http://agents-classifier:9001
+      - RESPONDER_URL=http://agents-responder:9002
+      - VERIFIER_URL=http://agents-verifier:9003
+      - JWT_SECRET=${JWT_SECRET}
+      - PORT=4000
+    ports:
+      - "4000:4000"
+
+  api:
+    build: ./backend
+    env_file: .env
+    environment:
+      - ORCHESTRATOR_URL=http://orchestrator:4000
+    ports:
+      - "8080:8080"
+    command: ["/app/app/start.sh", "api"]
+    depends_on: [postgres, redis, orchestrator]
+
+  worker:
+    build: ./backend
+    env_file: .env
+    environment:
+      - ORCHESTRATOR_URL=http://orchestrator:4000
+    command: ["/app/app/start.sh", "worker"]
+    depends_on: [api, postgres, redis, orchestrator]
+
+volumes:
+  pgdata:
