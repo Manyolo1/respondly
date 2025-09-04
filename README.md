@@ -34,8 +34,13 @@ It’s built to expand across industries, scaling empathy from startups to globa
  ### Quick Start
 #### Build and run all services
 docker-compose up --build
+<img src="docker.png" width="900"/>
 API → http://localhost:8080
 
+Example: 
+
+<img src="input.png" width="900"/>
+<img src="output.png" width="900"/>
 ## 📌 Tech Stack
 Backend: FastAPI, SQLAlchemy, Celery (Python 3.11)
 
