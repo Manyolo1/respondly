@@ -1,5 +1,7 @@
 # Respondly – Fast, Friendly, Response-Ready.
-## Empathy at Scale for Customer Support
+## Empathy at Scale for Customer Support 
+<img src="logo_respondly.png" width="150"/>
+
 During my internship at Adobe as an Automation Engineer, I kept running into one truth:
 no matter how efficient the backend systems were, what really moved the needle on CSAT wasn’t speed alone, it would be empathy.
 A reply that felt human, acknowledged frustration, and guided with care often turned a negative customer experience into loyalty.
