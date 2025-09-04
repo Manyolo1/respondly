@@ -28,7 +28,7 @@ Flexible → no protocol overhead or vendor lock-in
 Sometimes, the simplest architecture tells the clearest story.
 
  ## Vision
-Respondly isn’t just a project—it’s a stepping stone.
+Respondly isn’t just a project, it’s a stepping stone.
 For orgs still relying on human support agents, Respondly can be a co-pilot, suggesting empathetic replies.
 For companies that already run fully automated customer service, Respondly becomes the missing empathy layer—making bots sound like they care.
 It’s built to expand across industries, scaling empathy from startups to global enterprises.
