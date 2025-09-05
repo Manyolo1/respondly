@@ -51,6 +51,10 @@ docker-compose.yml: Multi-service orchestration.
  ## Quick Start
 
 #### Build and run all services
+
+![Docker](https://img.shields.io/badge/docker-ready-blue)
+
+
 docker-compose up --build
 <img src="docker.png" width="900"/>
 
